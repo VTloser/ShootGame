@@ -11,6 +11,7 @@ public class TagManager : MonoBehaviour
     public List<ShootTag> ALLTags = new List<ShootTag>();
     public List<ShootTag> UseTags = new List<ShootTag>();
     public Camera camera;
+    public GameObject Force_Throw;
 
     private void Awake()
     {
@@ -25,7 +26,7 @@ public class TagManager : MonoBehaviour
 
     float Min = 200; //  ÏñËØµ¥Î»Îó²î
     Vector2 Pos;
-    ShootTag CurrentTag;
+    public ShootTag CurrentTag;
     ShootTag LastCurrentTag;
     void Update()
     {
@@ -57,6 +58,10 @@ public class TagManager : MonoBehaviour
         {
             Image.gameObject.SetActive(true);
             Image.transform.position = Pos;
+
+            Force_Throw.transform.LookAt(CurrentTag.transform.position);
+
+
         }
         else
         {
