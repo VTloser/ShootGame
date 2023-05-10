@@ -27,22 +27,28 @@ public class CamControl : MonoBehaviour
 
 
         PlatyAction platyAction = PlatyAction.Idle;
-        if (Input.GetKey(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            //animator.SetBool();
+            animator.SetTrigger("Jump");
         }
-        else if (Input.GetKey(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.W))
         {
-            platyAction = PlatyAction.Run;
+            animator.SetBool("Run", true);
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKeyUp(KeyCode.W))
         {
-            platyAction = PlatyAction.Slice;
+            animator.SetBool("Run", false);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            animator.SetBool("Slice", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.S))
+        {
+            animator.SetBool("Slice", false);
         }
 
-        AnimatorCollor(platyAction);
-
-        this.transform.position += new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+       // this.transform.position += new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
     }
 
     private void AnimatorCollor(PlatyAction platyAction)
