@@ -8,16 +8,18 @@ public class ShootTag : MonoBehaviour
 
     public float Distance;
     public Vector2 ScreenPos;
-    public GameObject Image;
+
     public Camera camera;
 
 
-    public GameObject arrow;
+    private GameObject arrow;
 
+    private ParticleSystem particleSystem;
 
     private void Awake()
     {
         arrow = transform.Find("arrow").gameObject;
+        particleSystem = transform.GetComponentInChildren<ParticleSystem>();
     }
     void Update()
     {
@@ -27,15 +29,16 @@ public class ShootTag : MonoBehaviour
     }
 
 
-
-    private void OnParticleCollision(GameObject other)
+    public void Hit()
     {
 
         arrow.SetActive(true);
-
+        particleSystem.Play();
 
         Invoke("DD", 2);
     }
+
+
 
     void DD()
     {

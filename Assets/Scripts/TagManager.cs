@@ -11,10 +11,13 @@ public class TagManager : MonoBehaviour
     public List<ShootTag> ALLTags = new List<ShootTag>();
     public List<ShootTag> UseTags = new List<ShootTag>();
     public Camera camera;
-    public GameObject Force_Throw;
+
+    public static TagManager Instance;
 
     private void Awake()
     {
+        Instance = this;
+
         ALLTags = FindObjectsOfType<ShootTag>().ToList();
 
         foreach (var item in ALLTags)
@@ -59,13 +62,14 @@ public class TagManager : MonoBehaviour
             Image.gameObject.SetActive(true);
             Image.transform.position = Pos;
 
-            Force_Throw.transform.LookAt(CurrentTag.transform.position);
+            //Force_Throw.transform.LookAt(CurrentTag.transform.position);
 
 
         }
         else
         {
             Image.gameObject.SetActive(false);
+            CurrentTag = null;
         }
 
         Min = 200;
@@ -93,5 +97,7 @@ public class TagManager : MonoBehaviour
     {
         Image.transform.position = Pos;
     }
+
+
 
 }
