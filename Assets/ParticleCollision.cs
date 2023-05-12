@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ParticleCollision : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class ParticleCollision : MonoBehaviour
         {
             //增加能量
             CamControl.Instance.RunSliderAdd();
-           
         }
 
         else

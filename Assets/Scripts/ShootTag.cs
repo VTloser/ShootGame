@@ -26,6 +26,7 @@ public class ShootTag : MonoBehaviour
         ScreenPos = camera.WorldToScreenPoint(this.transform.position);
         Distance = Mathf.Abs(ScreenPos.x - Screen.width / 2);
 
+        this.transform.LookAt(CamControl.Instance.transform);
     }
 
 

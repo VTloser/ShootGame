@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class TagManager : MonoBehaviour
 {
-    public Image Image;
+    public GameObject Image;
     public List<ShootTag> ALLTags = new List<ShootTag>();
     public List<ShootTag> UseTags = new List<ShootTag>();
     public Camera camera;
@@ -27,7 +27,7 @@ public class TagManager : MonoBehaviour
     }
 
 
-    float Min = 200; //  ÏñËØµ¥Î»Îó²î
+    float Min = 400; //  ÏñËØµ¥Î»Îó²î
     Vector2 Pos;
     public ShootTag CurrentTag;
     ShootTag LastCurrentTag;
@@ -57,7 +57,7 @@ public class TagManager : MonoBehaviour
             }
         }
 
-        if (Min != 200)
+        if (Min != 400)
         {
             Image.gameObject.SetActive(true);
             Image.transform.position = Pos;
@@ -72,16 +72,16 @@ public class TagManager : MonoBehaviour
             CurrentTag = null;
         }
 
-        Min = 200;
+        Min = 400;
 
         if (LastCurrentTag != CurrentTag)
         {
             Image.transform.localScale = Vector2.one * 4;
-            Image.color = new Color(Image.color.r, Image.color.g, Image.color.b, 0);
+            Image.GetComponent<CanvasGroup>().alpha = 0;
             Image.transform.rotation = Quaternion.identity;
 
             Image.transform.DORotate(Vector3.forward * 180, 0.15f);
-            Image.DOColor(new Color(Image.color.r, Image.color.g, Image.color.b, 1), 0.15f);
+            Image.GetComponent<CanvasGroup>().alpha = 1;
             Image.transform.DOScale(Vector2.one, 0.15f);
         }
         LastCurrentTag = CurrentTag;
