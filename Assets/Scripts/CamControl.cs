@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Animations.Rigging;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
+using UnityEngine.Events;
+
 public class CamControl : MonoBehaviour
 {
     public ParticleSystem correctArrowEmission;
@@ -37,6 +42,23 @@ public class CamControl : MonoBehaviour
 
     public Material Speedmaterial;
 
+
+    public MultiAimConstraint Aim;
+
+    public TwoBoneIKConstraint Left_Read;
+
+    public TwoBoneIKConstraint Right_Read;
+
+    public TwoBoneIKConstraint Right_Forece;
+
+    public MultiParentConstraint Row_Praent;
+
+    public MultiPositionConstraint Row_;
+
+
+    public GameObject AimTag;
+
+
     PlatyState platyState = PlatyState.None;
     Rigidbody Rigidbody;
 
@@ -53,8 +75,55 @@ public class CamControl : MonoBehaviour
     }
 
     Slider slider;
+
+    bool RowFinish;
+
     private async void Update()
     {
+        Debug.Log(tagManager.CurrentTag);
+        if (tagManager.CurrentTag != null)
+        {
+            AimTag.transform.position = tagManager.CurrentTag.transform.position;
+        }
+
+        
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            RowFinish = false;
+            if (tagManager.CurrentTag != null)
+                Aim.weight = 1;
+            Right_Forece.weight = 0;
+
+             DOTween.To(() => 0f, x =>
+            {
+                if (!RowFinish)
+                {
+                    var sourceObject = Row_Praent.data.sourceObjects[0];
+                    sourceObject.weight = 1 - x;
+                    var sourceObject1 = Row_Praent.data.sourceObjects[1];
+                    sourceObject1.weight = x;
+
+                    Row_Praent.data.sourceObjects = new WeightedTransformArray() { sourceObject, sourceObject1 };
+
+                    Left_Read.weight = x;
+                    Right_Read.weight = x;
+                }
+
+            }, 1, 0.1f).OnComplete(() =>
+            {
+                Row_.weight = 1;
+
+                 DOTween.To(() => 0f, x =>
+                {
+                    if (!RowFinish)
+                    {
+                        Right_Forece.weight = x;
+                    }
+                }, 1, 0.1f);
+            });
+        }
+
         if (Input.GetMouseButton(1))
         {
             slider.value += Time.deltaTime;
@@ -62,58 +131,73 @@ public class CamControl : MonoBehaviour
 
         if (Input.GetMouseButtonUp(1))
         {
-            if (slider.value > 0.4f && slider.value <= 0.6f || slider.value >= 0.9f)
+            RowFinish = true;
+
+            Aim.weight = 0;
+            Left_Read.weight = 0;
+            Right_Read.weight = 0;
+            Row_.weight = 0;
+            Right_Forece.weight = 0;
+
+            if (tagManager.CurrentTag != null)
             {
-
-                correctArrowEmission.transform.position = tagManager.CurrentTag.transform.position;
-                var shape = correctArrowEmission.shape;
-                shape.position = correctArrowEmission.transform.InverseTransformPoint(Hand.position);
-                correctArrowEmission.Play();
-
-                Speedmaterial.SetFloat("_Opacity", 1);
-                Speedmaterial.SetFloat("_Amount", 0);
-
-                Speedmaterial.DOFloat(1, "_Amount", 0.5f).OnComplete(() =>
+                if (slider.value > 0.4f && slider.value <= 0.6f || slider.value >= 0.9f)
                 {
-                    Speedmaterial.SetFloat("_Opacity", 0);
-                });
+                    correctArrowEmission.transform.position = tagManager.CurrentTag.transform.position;
+                    var shape = correctArrowEmission.shape;
+                    shape.position = correctArrowEmission.transform.InverseTransformPoint(Hand.position);
+                    correctArrowEmission.Play();
 
-                SpeedADD();
 
-                if ((platyState & PlatyState.InAir) == PlatyState.InAir && slider.value < 0.8)
+                    if ((platyState & PlatyState.InRun) == PlatyState.InRun)
+                    {
+                        Speedmaterial.SetFloat("_Opacity", 1);
+                        Speedmaterial.SetFloat("_Amount", 0);
+
+                        Speedmaterial.DOFloat(1, "_Amount", 0.5f).OnComplete(() =>
+                        {
+                            Speedmaterial.SetFloat("_Opacity", 0);
+                        });
+
+                        SpeedADD();
+                    }
+
+                    if ((platyState & PlatyState.InAir) == PlatyState.InAir && slider.value < 0.8)
+                    {
+                        Time.timeScale = 0.2f;
+                        await Task.Delay(500);
+                        Time.timeScale = 1;
+
+                        CanAirJump = true;
+                    }
+
+                }
+                else
                 {
-                    Time.timeScale = 0.2f;
-                    await Task.Delay(500);
-                    Time.timeScale = 1;
-
-                    CanAirJump = true;
+                    MissArrowEmission.Play();
                 }
 
+                Slider t = Resources.Load<Slider>("Scree_copy");
+                Slider tt = GameObject.Instantiate(t, slider.transform.parent);
+
+                tt.value = slider.value;
+
+                tt.transform.position = slider.transform.position;
+                tt.transform.localScale = slider.transform.localScale;
+                tt.transform.rotation = slider.transform.rotation;
+
+                tt.transform.DOScale(Vector3.one * 3, 0.5f).OnComplete(() =>
+                {
+                    Slider p = tt;
+                    Destroy(p.gameObject);
+                });
+
+                DOTween.To(() => 1f, x =>
+                {
+                    tt.transform.GetComponent<CanvasGroup>().alpha = x;
+                }, 0, 0.5f);
+
             }
-            else
-            {
-                MissArrowEmission.Play();
-            }
-
-            Slider t =  Resources.Load<Slider>("Scree_copy");
-            Slider tt = GameObject.Instantiate(t, slider.transform.parent);
-
-            tt.value = slider.value;
-
-            tt.transform.position = slider.transform.position;
-            tt.transform.localScale = slider.transform.localScale;
-            tt.transform.rotation = slider.transform.rotation;
-
-            tt.transform.DOScale(Vector3.one * 3, 0.5f).OnComplete(()=>
-            {
-                Slider p = tt;
-                Destroy(p.gameObject);
-            });
-
-            DOTween.To(() => 1f, x =>
-            {
-                tt.transform.GetComponent<CanvasGroup>().alpha = x;
-            }, 0, 0.5f);
 
             slider.value = 0;
         }

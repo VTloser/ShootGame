@@ -30,7 +30,11 @@ public class TagManager : MonoBehaviour
     float Min = 400; //  ÏñËØµ¥Î»Îó²î
     Vector2 Pos;
     public ShootTag CurrentTag;
+
+
     ShootTag LastCurrentTag;
+
+
     void Update()
     {
         foreach (var item in ALLTags)
@@ -63,8 +67,6 @@ public class TagManager : MonoBehaviour
             Image.transform.position = Pos;
 
             //Force_Throw.transform.LookAt(CurrentTag.transform.position);
-
-
         }
         else
         {
