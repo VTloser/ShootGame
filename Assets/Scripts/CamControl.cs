@@ -85,8 +85,6 @@ public class CamControl : MonoBehaviour
             AimTag.transform.position = tagManager.CurrentTag.transform.position;
         }
 
-        
-
         if (Input.GetMouseButtonDown(1))
         {
             RowFinish = false;
@@ -305,22 +303,38 @@ public class CamControl : MonoBehaviour
         }
     }
 
+    float _jumpSpeed;
     private void MoveControl()
     {
         animator.SetBool("Run", false);
         platyState = platyState & ~PlatyState.InRun;
+
+
         if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
         {
             this.transform.Translate(Vector3.forward * Time.deltaTime * _curentSpeed);
-            animator.SetBool("Run", true);
+
+            _jumpSpeed += Input.GetAxisRaw("Vertical") * Time.deltaTime * 5;
 
             platyState = platyState | PlatyState.InRun;
+
+            Debug.Log(Input.GetAxisRaw("Vertical"));
         }
+
+        if (Input.GetAxisRaw("Vertical") <= 0.125f)
+        {
+            _jumpSpeed = 0;
+            Debug.Log(Input.GetAxisRaw("Vertical"));
+        }
+
+
+        animator.SetFloat("MoveSpeed", _jumpSpeed);
+
 
         var _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         _input = _input.normalized;
 
-        if(_input != Vector3.zero)
+        if (_input != Vector3.zero)
         {
             var matrix = Matrix4x4.Rotate(Quaternion.Euler(0, camera.transform.eulerAngles.y, 0)); ;
             _input = matrix.MultiplyPoint3x4(_input);            //给输入乘上相机旋转
@@ -346,26 +360,9 @@ public class CamControl : MonoBehaviour
         }
     }
 
-
-
     public void RunSliderAdd()
     {
         RunSlider.value += 0.02f;
-    }
-
-    private void OnAnimatorIK(int layerIndex)
-    {
-        //修改 IKGoal位置
-        animator.SetIKPosition(AvatarIKGoal.LeftFoot, new Vector3(0, 0, 0));
-
-        //设置权重 权重却高 模型越靠近IK Goal位置
-        animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 0.5f);
-    }
-
-    private void OnAnimatorMove()
-    {
-        transform.position += animator.deltaPosition;
-        transform.rotation = animator.deltaRotation;
     }
 
 
