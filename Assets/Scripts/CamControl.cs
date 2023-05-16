@@ -24,7 +24,6 @@ public class CamControl : MonoBehaviour
     public static CamControl Instance;
 
 
-
     public float _curentSpeed;
 
     public float MoveSpeed = 10;
@@ -95,7 +94,7 @@ public class CamControl : MonoBehaviour
                 Aim.weight = 1;
             Right_Forece.weight = 0;
 
-             DOTween.To(() => 0f, x =>
+            DOTween.To(() => 0f, x =>
             {
                 if (!RowFinish)
                 {
@@ -111,17 +110,19 @@ public class CamControl : MonoBehaviour
                 }
 
             }, 1, 0.1f).OnComplete(() =>
-            {
-                Row_.weight = 1;
-
-                 DOTween.To(() => 0f, x =>
-                {
-                    if (!RowFinish)
-                    {
-                        Right_Forece.weight = x;
-                    }
-                }, 1, 0.1f);
-            });
+             {
+               if (!RowFinish)
+               {
+                   Row_.weight = 1;
+                   DOTween.To(() => 0f, x =>
+                   {
+                       if (!RowFinish)
+                       {
+                           Right_Forece.weight = x;
+                       }
+                   }, 1, 0.1f);
+               }
+           });
         }
 
         if (Input.GetMouseButton(1))
@@ -133,11 +134,29 @@ public class CamControl : MonoBehaviour
         {
             RowFinish = true;
 
-            Aim.weight = 0;
-            Left_Read.weight = 0;
-            Right_Read.weight = 0;
-            Row_.weight = 0;
-            Right_Forece.weight = 0;
+            DOTween.To(() => 1f, x =>
+            {
+                if (RowFinish)
+                {
+                    Aim.weight = x;                   
+                    Right_Forece.weight = x;
+                    Right_Read.weight = x;
+                    Row_.weight = x;
+                }
+            }, 0, 0.1f).OnComplete(() =>
+            {
+                if (RowFinish)
+                {
+                    DOTween.To(() => 1f, x =>
+                    {
+                        if (RowFinish)
+                        {
+                            Left_Read.weight = x;
+                        }
+                    }, 0, 0.1f);
+                }
+            });
+
 
             if (tagManager.CurrentTag != null)
             {
@@ -333,6 +352,23 @@ public class CamControl : MonoBehaviour
     {
         RunSlider.value += 0.02f;
     }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        //修改 IKGoal位置
+        animator.SetIKPosition(AvatarIKGoal.LeftFoot, new Vector3(0, 0, 0));
+
+        //设置权重 权重却高 模型越靠近IK Goal位置
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 0.5f);
+    }
+
+    private void OnAnimatorMove()
+    {
+        transform.position += animator.deltaPosition;
+        transform.rotation = animator.deltaRotation;
+    }
+
+
 }
 
 
