@@ -16,11 +16,21 @@ public class ShootTag : MonoBehaviour
 
     private ParticleSystem particleSystem;
 
+
+
+    public bool CanShoot = true;
+
+
+    public Material material;
+
     private void Awake()
     {
         arrow = transform.Find("arrow").gameObject;
         particleSystem = transform.GetComponentInChildren<ParticleSystem>();
+
+        material = transform.Find("Quad").GetComponent<MeshRenderer>().material;
     }
+
     void Update()
     {
         ScreenPos = camera.WorldToScreenPoint(this.transform.position);
@@ -36,13 +46,23 @@ public class ShootTag : MonoBehaviour
         arrow.SetActive(true);
         particleSystem.Play();
 
-        Invoke("DD", 2);
-    }
+        TagManager.Instance.UseTags.Remove(this);
 
+        Invoke("DD", 10);
+
+        CanShoot = false;
+
+        material.SetFloat("_EmissionEnabled", 0);
+        material.SetColor("_EmissionColor", new Color(10 / 256, 10 / 256, 10 / 256, 1));
+    }
 
 
     void DD()
     {
         arrow.SetActive(false);
+        CanShoot = true;
+
+        material.SetFloat("_EmissionEnabled", 1);
+        material.SetColor("_EmissionColor", new Color(1, 1, 1, 1));
     }
 }

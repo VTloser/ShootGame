@@ -41,12 +41,12 @@ public class TagManager : MonoBehaviour
         {
             if (Vector3.Dot(camera.transform.forward, (item.transform.position - camera.transform.position).normalized) < Mathf.Cos(camera.fieldOfView / 2 * Mathf.Deg2Rad))
             {
-                if (UseTags.Contains(item))
+                if (UseTags.Contains(item) || !item.CanShoot)
                     UseTags.Remove(item);
             }
             else
             {
-                if (!UseTags.Contains(item))
+                if (!UseTags.Contains(item) && item.CanShoot)
                     UseTags.Add(item);
             }
         }

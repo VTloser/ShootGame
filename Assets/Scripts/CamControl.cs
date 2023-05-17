@@ -249,12 +249,16 @@ public class CamControl : MonoBehaviour
             }
 
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
+
+            platyState = platyState & ~PlatyState.InSlice;
+            animator.SetBool("Slice", false);
+
+
             if ((platyState & PlatyState.InAir) != PlatyState.InAir)
             {
-                platyState = platyState & ~PlatyState.InSlice;
-                animator.SetBool("Slice", false);
+
             }
         }
 
@@ -281,9 +285,12 @@ public class CamControl : MonoBehaviour
     int _jumpDelay;
     async private void JumpControl()
     {
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _jumpDelay = SaticJumpDelay;
+
+            animator.SetBool("Slice", false);
             if ((platyState & PlatyState.InAir) == PlatyState.InAir && !CanAirJump)
             {
                 return;
@@ -339,7 +346,7 @@ public class CamControl : MonoBehaviour
         animator.SetFloat("MoveSpeed", _jumpSpeed);
 
 
-        var _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+         _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         _input = _input.normalized;
 
         if (_input != Vector3.zero)
@@ -353,6 +360,7 @@ public class CamControl : MonoBehaviour
         }
 
     }
+    Vector3 _input;
 
     public float DisOffest = 0.15f;
 
@@ -365,6 +373,8 @@ public class CamControl : MonoBehaviour
                 platyState = platyState & ~PlatyState.InAir;
                 animator.SetTrigger("OnGround");
                 CanAirJump = true;
+
+                Debug.Log(123);
             }
         }
     }
@@ -384,7 +394,7 @@ public class CamControl : MonoBehaviour
 
         if ((platyState & PlatyState.InAir) == PlatyState.InAir || (platyState & PlatyState.InSlice) == PlatyState.InSlice)
         {
-            Rigidbody.velocity += Vector3.forward *  _curentSpeed;
+            Rigidbody.velocity += _input *  _curentSpeed;
 
             Debug.Log(1111);
         }
