@@ -79,6 +79,9 @@ public class CamControl : MonoBehaviour
 
     private async void Update()
     {
+        OnGroundRay();
+
+
         Debug.Log(tagManager.CurrentTag);
         if (tagManager.CurrentTag != null)
         {
@@ -227,6 +230,11 @@ public class CamControl : MonoBehaviour
             {
                 if (RunSlider.value > 0.2f)
                 {
+
+                    platyState |= PlatyState.InSlice;
+
+
+
                     animator.SetBool("Slice", true);
                     RunSlider.value -= 0.2f;
 
@@ -245,6 +253,7 @@ public class CamControl : MonoBehaviour
         {
             if ((platyState & PlatyState.InAir) != PlatyState.InAir)
             {
+                platyState = platyState & ~PlatyState.InSlice;
                 animator.SetBool("Slice", false);
             }
         }
@@ -312,9 +321,9 @@ public class CamControl : MonoBehaviour
 
         if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
         {
-            this.transform.Translate(Vector3.forward * Time.deltaTime * _curentSpeed);
 
-            _jumpSpeed += Input.GetAxisRaw("Vertical") * Time.deltaTime * 5;
+
+            _jumpSpeed += Input.GetAxisRaw("Vertical") ;
 
             platyState = platyState | PlatyState.InRun;
 
@@ -324,7 +333,6 @@ public class CamControl : MonoBehaviour
         if (Input.GetAxisRaw("Vertical") <= 0.125f)
         {
             _jumpSpeed = 0;
-            Debug.Log(Input.GetAxisRaw("Vertical"));
         }
 
 
@@ -346,12 +354,13 @@ public class CamControl : MonoBehaviour
 
     }
 
+    public float DisOffest = 0.15f;
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnGroundRay()
     {
-        if (collision.collider.CompareTag("Ground"))
+        if ((platyState & PlatyState.InAir) == PlatyState.InAir && Rigidbody.velocity.y < 0)
         {
-            if ((platyState & PlatyState.InAir) == PlatyState.InAir)
+            if (Physics.Raycast(this.transform.position, Vector3.down, DisOffest))
             {
                 platyState = platyState & ~PlatyState.InAir;
                 animator.SetTrigger("OnGround");
@@ -360,9 +369,25 @@ public class CamControl : MonoBehaviour
         }
     }
 
+
     public void RunSliderAdd()
     {
         RunSlider.value += 0.02f;
+    }
+
+
+
+    private void OnAnimatorMove()
+    {
+        Rigidbody.velocity = new Vector3(animator.velocity.x, Rigidbody.velocity.y, animator.velocity.z);
+
+
+        if ((platyState & PlatyState.InAir) == PlatyState.InAir || (platyState & PlatyState.InSlice) == PlatyState.InSlice)
+        {
+            Rigidbody.velocity += Vector3.forward *  _curentSpeed;
+
+            Debug.Log(1111);
+        }
     }
 
 
@@ -376,5 +401,7 @@ public enum PlatyState
     InAir = 2,
 
     InRun = 4,
+
+    InSlice = 8
 
 }
