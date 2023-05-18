@@ -26,10 +26,11 @@ public class ParticleCollision : MonoBehaviour
     {
         //屏幕晃动 
         MyInpulse1.GenerateImpulse();
+
         if (isEnergy)
         {
             //增加能量
-            CamControl.Instance.RunSliderAdd();
+            PlayManager.Instance.RunSliderAdd();
 
             if (amount < 1)
             {
@@ -39,20 +40,21 @@ public class ParticleCollision : MonoBehaviour
                 {
                     renderer.material.DOFloat(1, "_Alpha", .2f).OnComplete(() => Complete(renderer));
                 }
-
-                Debug.Log(111);
             }
         }
 
         else
         {
 
-            TagManager.Instance.CurrentTag?.Hit();
-            //返回粒子
             var shape = HitBack.shape;
-            shape.position = HitBack.transform.InverseTransformPoint(TagManager.Instance.CurrentTag.transform.position);
+            shape.position = HitBack.transform.InverseTransformPoint(TagManager.Instance.AimTag.transform.position);
 
             HitBack.Play();
+
+            TagManager.Instance.AimTag?.Hit();
+            TagManager.Instance.AimTag = null;
+            //返回粒子
+
         }
 
 

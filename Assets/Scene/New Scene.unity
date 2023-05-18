@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10847,6 +10847,7 @@ MonoBehaviour:
   UseTags: []
   camera: {fileID: 1748957839}
   CurrentTag: {fileID: 0}
+  AimTag: {fileID: 0}
 --- !u!4 &888850220
 Transform:
   m_ObjectHideFlags: 0
@@ -16345,7 +16346,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1314784905}
-  m_LocalRotation: {x: 0.20159715, y: 0.000000023833891, z: -0.0000000049055635, w: 0.9794685}
+  m_LocalRotation: {x: 0.1995203, y: -0.14023118, z: 0.0288628, w: 0.96937805}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21451,7 +21452,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1533709054}
-  m_LocalRotation: {x: 0.22975291, y: -0.0000000187227, z: 0.0000000044198294, w: 0.973249}
+  m_LocalRotation: {x: 0.22738603, y: -0.13934073, z: 0.032893885, w: 0.9632226}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21992,8 +21993,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748957837}
-  m_LocalRotation: {x: 0.20159717, y: 0.000000023833893, z: -0.000000004905564, w: 0.9794685}
-  m_LocalPosition: {x: 0, y: 5.281, z: -5.84}
+  m_LocalRotation: {x: 0.19952032, y: -0.14023119, z: 0.028862806, w: 0.96937805}
+  m_LocalPosition: {x: 2.887915, y: 5.6080003, z: -5.457043}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22542,7 +22543,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851247359}
-  m_LocalRotation: {x: 0.17346148, y: -0.000000016945544, z: 0.000000002984644, w: 0.9848407}
+  m_LocalRotation: {x: 0.17167448, y: -0.14100035, z: 0.024834607, w: 0.97469485}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -22588,8 +22589,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 5129017397939849418}
-  m_Follow: {fileID: 5129017397939849418}
+  m_LookAt: {fileID: 1757554420}
+  m_Follow: {fileID: 1757554420}
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 60
@@ -22682,7 +22683,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859743595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.281, z: -5.84}
+  m_LocalPosition: {x: 2.887915, y: 5.6080003, z: -5.457043}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24655,8 +24656,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correctArrowEmission: {fileID: 123208582}
   MissArrowEmission: {fileID: 1482786119}
-  tagManager: {fileID: 888850219}
-  Hand: {fileID: 42566169}
   animator: {fileID: 5505156359243469428}
   _curentSpeed: 10
   MoveSpeed: 10
@@ -24664,18 +24663,22 @@ MonoBehaviour:
   RotationSpeed: 150
   SaticJumpDelay: 300
   RunJumpDelay: 100
-  CanAirJump: 0
+  CanAirJump: 1
   camera: {fileID: 1748957839}
   Speedmaterial: {fileID: 2100000, guid: d34409c299ccddb499ebaa30434eb512, type: 2}
   Aim: {fileID: 1078080318}
-  Left_Read: {fileID: 42566170}
-  Right_Read: {fileID: 203920777}
+  Left_Ready: {fileID: 42566170}
+  Right_Ready: {fileID: 203920777}
   Right_Forece: {fileID: 810393011}
   Row_Praent: {fileID: 1873757460}
   Row_: {fileID: 2007863648}
   AimTag: {fileID: 1863968575}
   RunSlider: {fileID: 2006795065}
-  DisOffest: 0.15
+  ShootSlider_faultTolerance: 0.1
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 183
+  DisOffest: 0.2
 --- !u!95 &5505156359243469428
 Animator:
   serializedVersion: 5
@@ -25691,10 +25694,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 888850220}
     m_Modifications:
-    - target: {fileID: 8330880438200636730, guid: 40ad109f9145d10439656f1afc86c407, type: 3}
-      propertyPath: CanShoot
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8330880438200636732, guid: 40ad109f9145d10439656f1afc86c407, type: 3}
       propertyPath: m_Name
       value: Tag

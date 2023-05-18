@@ -7,12 +7,12 @@ public class SlideIng : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        CamControl.Instance._curentSpeed = CamControl.Instance.FastMoveSpeed;
+        PlayManager.Instance._curentSpeed = PlayManager.Instance.FastMoveSpeed;
     }
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        CamControl.Instance._curentSpeed = CamControl.Instance.MoveSpeed;
+        PlayManager.Instance._curentSpeed = PlayManager.Instance.MoveSpeed;
     }
 
 

@@ -16,8 +16,6 @@ public class ShootTag : MonoBehaviour
 
     private ParticleSystem particleSystem;
 
-
-
     public bool CanShoot = true;
 
 
@@ -36,7 +34,7 @@ public class ShootTag : MonoBehaviour
         ScreenPos = camera.WorldToScreenPoint(this.transform.position);
         Distance = Mathf.Abs(ScreenPos.x - Screen.width / 2);
 
-        this.transform.LookAt(CamControl.Instance.transform);
+        this.transform.LookAt(PlayManager.Instance.transform);
     }
 
 
@@ -45,8 +43,6 @@ public class ShootTag : MonoBehaviour
 
         arrow.SetActive(true);
         particleSystem.Play();
-
-        TagManager.Instance.UseTags.Remove(this);
 
         Invoke("DD", 10);
 

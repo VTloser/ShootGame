@@ -17,9 +17,7 @@ public class TagManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
         ALLTags = FindObjectsOfType<ShootTag>().ToList();
-
         foreach (var item in ALLTags)
         {
             item.camera = camera;
@@ -30,7 +28,7 @@ public class TagManager : MonoBehaviour
     float Min = 400; //  ÏñËØµ¥Î»Îó²î
     Vector2 Pos;
     public ShootTag CurrentTag;
-
+    public ShootTag AimTag;
 
     ShootTag LastCurrentTag;
 
@@ -85,6 +83,9 @@ public class TagManager : MonoBehaviour
             Image.transform.DORotate(Vector3.forward * 180, 0.15f);
             Image.GetComponent<CanvasGroup>().alpha = 1;
             Image.transform.DOScale(Vector2.one, 0.15f);
+
+
+            Image.GetComponent<Slider>().value = 0;
         }
         LastCurrentTag = CurrentTag;
 
