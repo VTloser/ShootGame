@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -328,7 +328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548933081}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.501089, y: -0.889, z: 82.619}
+  m_LocalPosition: {x: -12.351, y: -0.889, z: 82.619}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -424,14 +424,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133487031}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.501089, y: 0.368, z: 83.301}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0027041351, w: 0.99999636}
+  m_LocalPosition: {x: -11.491, y: -0.212, z: 81.613}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.31}
 --- !u!65 &1133487034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -521,14 +521,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1158257202}
-  m_LocalRotation: {x: -0, y: -0, z: -0.0027041351, w: 0.99999636}
-  m_LocalPosition: {x: -11.501089, y: -0.8726747, z: 82.098}
+  m_LocalRotation: {x: -0.18620159, y: 0.0005035162, z: -0.0026568437, w: 0.98250794}
+  m_LocalPosition: {x: -11.5, y: -0.46, z: 80.55}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.31}
+  m_LocalEulerAnglesHint: {x: -21.462, y: 0.122, z: -0.333}
 --- !u!65 &1158257205
 BoxCollider:
   m_ObjectHideFlags: 0

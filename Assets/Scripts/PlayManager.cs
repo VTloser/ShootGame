@@ -373,7 +373,8 @@ public class PlayManager : MonoBehaviour
         if (_input != Vector3.zero)
         {
 
-
+            Matrix4x4 matrix = Matrix4x4.Rotate(Quaternion.Euler(0, camera.transform.eulerAngles.y, 0));
+            _input = matrix.MultiplyPoint3x4(_input);
 
 
             if (platyState.Judge(PlatyState.InSlice))
